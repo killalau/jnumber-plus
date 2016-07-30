@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outFile": "./dist/jnumber-plus.js",
+        "declaration": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "compileOnSave": true
+}
