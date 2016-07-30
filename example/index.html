@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <div id="app">
+        <label for="n1">Number Plus</label>
+        <input id="n1" min="1" max="100" value="50" data-step="5"/>
+    </div>
+
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/dist/jnumber-plus.js"></script>
+    <script>
+        $(function(){
+            $('#n1').jnumberPlus();
+        });
+    </script>
+</body>
+</html>
