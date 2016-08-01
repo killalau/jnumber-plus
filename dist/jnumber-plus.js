@@ -13,6 +13,11 @@
         // Init "+" & "-" controls
         var $minus = $('<button>-</button>');
         var $plus = $('<button>+</button>');
+        var data = {
+            plusElement: $plus[0],
+            minusElement: $minus[0]
+        };
+        $self.data('jnumberPlus', data);
         $minus
             .addClass('jnumber-plus__minus')
             .on('click', function (event) {
@@ -112,6 +117,11 @@
             return $self.val(value);
         }
     }
+    function controlButton() {
+        var $self = this;
+        var data = $self.data('jnumberPlus');
+        return $([data.minusElement, data.plusElement]);
+    }
     // Basic plugin function
     $.fn.jnumberPlus = function (method) {
         var args = [];
@@ -129,7 +139,8 @@
                 max: maxFunc,
                 step: stepFunc,
                 val: valFunc,
-                isValid: isValidFunc
+                isValid: isValidFunc,
+                controlButton: controlButton
             };
             var func = methods[methodName];
             if (func) {

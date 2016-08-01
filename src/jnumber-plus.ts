@@ -7,6 +7,11 @@ interface jnumberPlusOptions {
     value?: number;
 }
 
+interface jnumberPlus {
+    plusElement: HTMLButtonElement;
+    minusElement: HTMLButtonElement;
+}
+
 interface JQuery {
     jnumberPlus(): JQuery | number;
 }
@@ -34,6 +39,11 @@ interface JQuery {
         // Init "+" & "-" controls
         let $minus = $('<button>-</button>');
         let $plus = $('<button>+</button>');
+        let data: jnumberPlus = {
+            plusElement: $plus[0],
+            minusElement: $minus[0]
+        };
+        $self.data('jnumberPlus', data);
 
         $minus
             .addClass('jnumber-plus__minus')
@@ -134,8 +144,14 @@ interface JQuery {
         }
     }
 
+    function controlButton(): JQuery {
+        let $self: JQuery = this;
+        let data: jnumberPlus = $self.data('jnumberPlus');
+        return $([data.minusElement, data.plusElement]);
+    }
+
     // Basic plugin function
-    $.fn.jnumberPlus = function (method: string | jnumberPlusOptions, ...args: any[]): JQuery | number {
+    $.fn.jnumberPlus = function (method: string | jnumberPlusOptions, ...args: any[]): JQuery | number | boolean {
         let callingMethod = typeof method === 'string';
         let methodName = callingMethod ? <string>method : null;
         let initOptions: jnumberPlusOptions = $.isPlainObject(method) ? <jnumberPlusOptions>method : {};
@@ -149,8 +165,9 @@ interface JQuery {
                 step: stepFunc,
                 val: valFunc,
                 isValid: isValidFunc,
+                controlButton: controlButton,
             };
-            let func: () => JQuery | number = methods[methodName];
+            let func: () => JQuery | number | boolean = methods[methodName];
             if (func) {
                 return func.apply($self, args);
             } else {

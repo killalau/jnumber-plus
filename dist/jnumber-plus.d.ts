@@ -5,6 +5,10 @@ interface jnumberPlusOptions {
     max?: number;
     value?: number;
 }
+interface jnumberPlus {
+    plusElement: HTMLButtonElement;
+    minusElement: HTMLButtonElement;
+}
 interface JQuery {
     jnumberPlus(): JQuery | number;
 }
