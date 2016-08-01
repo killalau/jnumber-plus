@@ -177,7 +177,7 @@ interface JQuery {
             }
         } else {
             // Init component
-            initFunc.call($self, initOptions);
+            return initFunc.call($self, initOptions);
         }
     };
 })(jQuery);
