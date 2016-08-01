@@ -22,6 +22,11 @@ interface JQuery {
     function initFunc(config: jnumberPlusOptions): JQuery {
         let $self: JQuery = this;
 
+        // Only initalize widget once
+        if($self.data('jnumberPlus')){
+            return $self;
+        }
+
         // Get default value
         let {
             step = $self.data('step'),

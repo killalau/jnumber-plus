@@ -3,6 +3,10 @@
     'use strict';
     function initFunc(config) {
         var $self = this;
+        // Only initalize widget once
+        if ($self.data('jnumberPlus')) {
+            return $self;
+        }
         // Get default value
         var _a = config.step, step = _a === void 0 ? $self.data('step') : _a, _b = config.min, min = _b === void 0 ? $self.prop('min') : _b, _c = config.max, max = _c === void 0 ? $self.prop('max') : _c, _d = config.value, value = _d === void 0 ? $self.val() : _d;
         // Init value, make sure it is within range
