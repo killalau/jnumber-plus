@@ -41,6 +41,7 @@
             var value = target.value;
             valFunc.call($self, value);
         });
+        return $self;
     }
     function minFunc(value) {
         var $self = this;

@@ -19,7 +19,7 @@ interface JQuery {
 (function ($) {
     'use strict';
 
-    function initFunc(config: jnumberPlusOptions) {
+    function initFunc(config: jnumberPlusOptions): JQuery {
         let $self: JQuery = this;
 
         // Get default value
@@ -70,6 +70,8 @@ interface JQuery {
                 let value = target.value;
                 valFunc.call($self, value);
             });
+
+        return $self;
     }
 
     function minFunc(value?: number): JQuery | number {
