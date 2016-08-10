@@ -5,6 +5,9 @@ interface jnumberPlusOptions {
     min?: number;
     max?: number;
     value?: number;
+    cls?: string;
+    plusElement?: string | HTMLElement | JQuery;
+    minusElement?: string | HTMLElement | JQuery;
 }
 
 interface jnumberPlus {
@@ -13,7 +16,7 @@ interface jnumberPlus {
 }
 
 interface JQuery {
-    jnumberPlus(): JQuery | number;
+    jnumberPlus(): JQuery | number | boolean;
 }
 
 (function ($) {
@@ -23,7 +26,7 @@ interface JQuery {
         let $self: JQuery = this;
 
         // Only initalize widget once
-        if($self.data('jnumberPlus')){
+        if ($self.data('jnumberPlus')) {
             return $self;
         }
 
@@ -33,6 +36,9 @@ interface JQuery {
             min = $self.prop('min'),
             max = $self.prop('max'),
             value = $self.val(),
+            cls = $self.data('cls'),
+            plusElement = $self.data('pluselement'),
+            minusElement = $self.data('minuselement'),
         } = config;
 
         // Init value, make sure it is within range
@@ -42,28 +48,36 @@ interface JQuery {
         valFunc.call($self, $self.val());
 
         // Init "+" & "-" controls
-        let $minus = $('<button>-</button>');
-        let $plus = $('<button>+</button>');
+        let $plus = plusElement ? $(plusElement) : $('<button>+</button>');
+        let $minus = minusElement ? $(minusElement) : $('<button>-</button>');
         let data: jnumberPlus = {
             plusElement: $plus[0],
             minusElement: $minus[0]
         };
-        $self.data('jnumberPlus', data);
+        $self.data({
+            pluselement: $plus[0],
+            minuselement: $minus[0],
+            jnumberPlus: data,
+        });
 
         $minus
             .addClass('jnumber-plus__minus')
+            .addClass(cls)
             .on('click', function (event) {
                 let step = stepFunc.call($self);
                 let value = valFunc.call($self);
-                valFunc.call($self, value - step);
+                valFunc.call($self, value  - step);
+                event.preventDefault();
             });
 
         $plus
             .addClass('jnumber-plus__plus')
+            .addClass(cls)
             .on('click', function (event) {
                 let step = stepFunc.call($self);
                 let value = valFunc.call($self);
                 valFunc.call($self, value + step);
+                event.preventDefault();
             });
 
         $self
@@ -162,7 +176,8 @@ interface JQuery {
         let callingMethod = typeof method === 'string';
         let methodName = callingMethod ? <string>method : null;
         let initOptions: jnumberPlusOptions = $.isPlainObject(method) ? <jnumberPlusOptions>method : {};
-        let $self = $(this);
+        let $self: JQuery = $(this);
+        let multipleScope: boolean = $self.length > 0;
 
         if (callingMethod) {
             // Calling relavent method
@@ -182,7 +197,10 @@ interface JQuery {
             }
         } else {
             // Init component
-            return initFunc.call($self, initOptions);
+            $self.each(function (i, el) {
+                initFunc.call($(el), initOptions);
+            });
+            return $self;
         }
     };
 })(jQuery);

@@ -8,33 +8,41 @@
             return $self;
         }
         // Get default value
-        var _a = config.step, step = _a === void 0 ? $self.data('step') : _a, _b = config.min, min = _b === void 0 ? $self.prop('min') : _b, _c = config.max, max = _c === void 0 ? $self.prop('max') : _c, _d = config.value, value = _d === void 0 ? $self.val() : _d;
+        var _a = config.step, step = _a === void 0 ? $self.data('step') : _a, _b = config.min, min = _b === void 0 ? $self.prop('min') : _b, _c = config.max, max = _c === void 0 ? $self.prop('max') : _c, _d = config.value, value = _d === void 0 ? $self.val() : _d, _e = config.cls, cls = _e === void 0 ? $self.data('cls') : _e, _f = config.plusElement, plusElement = _f === void 0 ? $self.data('pluselement') : _f, _g = config.minusElement, minusElement = _g === void 0 ? $self.data('minuselement') : _g;
         // Init value, make sure it is within range
         stepFunc.call($self, step || 1);
         minFunc.call($self, $self.prop('min'));
         maxFunc.call($self, $self.prop('max'));
         valFunc.call($self, $self.val());
         // Init "+" & "-" controls
-        var $minus = $('<button>-</button>');
-        var $plus = $('<button>+</button>');
+        var $plus = plusElement ? $(plusElement) : $('<button>+</button>');
+        var $minus = minusElement ? $(minusElement) : $('<button>-</button>');
         var data = {
             plusElement: $plus[0],
             minusElement: $minus[0]
         };
-        $self.data('jnumberPlus', data);
+        $self.data({
+            pluselement: $plus[0],
+            minuselement: $minus[0],
+            jnumberPlus: data
+        });
         $minus
             .addClass('jnumber-plus__minus')
+            .addClass(cls)
             .on('click', function (event) {
             var step = stepFunc.call($self);
             var value = valFunc.call($self);
             valFunc.call($self, value - step);
+            event.preventDefault();
         });
         $plus
             .addClass('jnumber-plus__plus')
+            .addClass(cls)
             .on('click', function (event) {
             var step = stepFunc.call($self);
             var value = valFunc.call($self);
             valFunc.call($self, value + step);
+            event.preventDefault();
         });
         $self
             .addClass('jnumber-plus__input')
@@ -137,6 +145,7 @@
         var methodName = callingMethod ? method : null;
         var initOptions = $.isPlainObject(method) ? method : {};
         var $self = $(this);
+        var multipleScope = $self.length > 0;
         if (callingMethod) {
             // Calling relavent method
             var methods = {
@@ -157,7 +166,10 @@
         }
         else {
             // Init component
-            return initFunc.call($self, initOptions);
+            $self.each(function (i, el) {
+                initFunc.call($(el), initOptions);
+            });
+            return $self;
         }
     };
 })(jQuery);

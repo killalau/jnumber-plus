@@ -2,18 +2,47 @@
 <html>
 <head>
     <title>Example</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+    #n2-plus:hover,
+    #n2-minus:hover {
+        cursor: pointer;
+    }
+    </style>
 </head>
 <body>
     <div id="app">
-        <label for="n1">Number Plus</label>
-        <input id="n1" min="1" max="100" value="50" data-step="5"/>
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="n1">Number Plus</label>
+                <input class="form-control jnumber-plus" id="n1"
+                    min="1"
+                    max="100"
+                    value="50"
+                    data-step="5"
+                    data-cls="btn btn-default"
+                />
+            </div>
+            <div class="form-group">
+                <label for="n2">Number Plus</label>
+                <div class="input-group">
+                    <div class="input-group-addon" id="n2-plus">LESS</div>
+                    <input class="form-control jnumber-plus" id="n2"
+                        data-pluselement="#n2-plus"
+                        data-minuselement="#n2-minus"
+                    />
+                    <div class="input-group-addon" id="n2-minus">MORE</div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="/dist/jnumber-plus.js"></script>
     <script>
         $(function(){
-            $('#n1').jnumberPlus();
+            $('.jnumber-plus').jnumberPlus();
         });
     </script>
 </body>
