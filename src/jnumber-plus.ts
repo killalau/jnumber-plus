@@ -65,7 +65,7 @@ interface JQuery {
             .addClass(cls)
             .on('click', function (event) {
                 let step = stepFunc.call($self);
-                let value = valFunc.call($self);
+                let value = valFunc.call($self) || 0;
                 valFunc.call($self, value  - step);
                 event.preventDefault();
             });
@@ -75,7 +75,7 @@ interface JQuery {
             .addClass(cls)
             .on('click', function (event) {
                 let step = stepFunc.call($self);
-                let value = valFunc.call($self);
+                let value = valFunc.call($self) || 0;
                 valFunc.call($self, value + step);
                 event.preventDefault();
             });

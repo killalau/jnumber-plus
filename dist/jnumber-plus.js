@@ -31,7 +31,7 @@
             .addClass(cls)
             .on('click', function (event) {
             var step = stepFunc.call($self);
-            var value = valFunc.call($self);
+            var value = valFunc.call($self) || 0;
             valFunc.call($self, value - step);
             event.preventDefault();
         });
@@ -40,7 +40,7 @@
             .addClass(cls)
             .on('click', function (event) {
             var step = stepFunc.call($self);
-            var value = valFunc.call($self);
+            var value = valFunc.call($self) || 0;
             valFunc.call($self, value + step);
             event.preventDefault();
         });
